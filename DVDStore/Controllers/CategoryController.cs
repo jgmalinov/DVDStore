@@ -63,13 +63,9 @@ namespace DVDStore.Controllers
         [HttpPost]
         public IActionResult Edit(Category obj)
         {
-            if (obj.Name == obj.DisplayOrder.ToString())
-            {
-                ModelState.AddModelError("", "Name and display order cannot be of equal values.");
-            }
             if (ModelState.IsValid)
             {
-                _db.Categories.Add(obj);
+                _db.Categories.Update(obj);
                 _db.SaveChanges();
                 return RedirectToAction("Index", "Category");
             }
@@ -77,6 +73,36 @@ namespace DVDStore.Controllers
             {
                 return View();
             }
+        }
+
+        public IActionResult Delete(int? id)
+        {
+            if (id is null || id == 0)
+            {
+                return NotFound();
+            }
+            
+            Category? category = _db.Categories.Find(id);
+
+            if (category is null)
+            {
+                return NotFound();
+            }
+            return View(category);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public IActionResult DeletePOST(int? id)
+        {
+            Category? objToRemove = _db.Categories.FirstOrDefault(cat => cat.Id == id);
+            if (objToRemove is null)
+            {
+                return NotFound();
+            }
+
+            _db.Categories.Remove(objToRemove);
+            _db.SaveChanges();
+            return RedirectToAction("Index", "Category");
         }
     }
 }
