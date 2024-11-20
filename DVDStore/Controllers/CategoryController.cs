@@ -37,6 +37,7 @@ namespace DVDStore.Controllers
             {
                 _db.Categories.Add(obj);
                 _db.SaveChanges();
+                TempData["success"] = "Genre created successfully!";
                 return RedirectToAction("Index", "Category");
             }
             else
@@ -67,6 +68,7 @@ namespace DVDStore.Controllers
             {
                 _db.Categories.Update(obj);
                 _db.SaveChanges();
+                TempData["success"] = "Genre updated successfully!";
                 return RedirectToAction("Index", "Category");
             }
             else
@@ -102,6 +104,7 @@ namespace DVDStore.Controllers
 
             _db.Categories.Remove(objToRemove);
             _db.SaveChanges();
+            TempData["success"] = "Genre deleted successfully!";
             return RedirectToAction("Index", "Category");
         }
     }
