@@ -1,4 +1,5 @@
-﻿using DVDStore.Data;
+﻿using DVDStore.DataAccess.Data;
+using DVDStore.DataAccess.Repository;
 using DVDStore.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,14 +7,14 @@ namespace DVDStore.Controllers
 {
     public class CategoryController : Controller
     {
-        private readonly ApplicationDbContext _db;
-        public CategoryController(ApplicationDbContext db)
+        private readonly ICategoryRepository _categoryRepo;
+        public CategoryController(ICategoryRepository categoryRepo)
         {
-            _db = db;
+            _categoryRepo = categoryRepo;
         }
         public IActionResult Index()
         {
-            List<Category> objCategoryList = _db.Categories.ToList();
+            List<Category> objCategoryList = _categoryRepo.GetAll().ToList();
             return View(objCategoryList);
         }
 
@@ -35,8 +36,8 @@ namespace DVDStore.Controllers
             //}
             if (ModelState.IsValid)
             {
-                _db.Categories.Add(obj);
-                _db.SaveChanges();
+                _categoryRepo.Add(obj);
+                _categoryRepo.Save();
                 TempData["success"] = "Genre created successfully!";
                 return RedirectToAction("Index", "Category");
             }
@@ -51,9 +52,9 @@ namespace DVDStore.Controllers
             {
                 return NotFound();
             }
-            Category? category = _db.Categories.Find(id);
-            //Category? category1 = _db.Categories.FirstOrDefault(g => g.Id == id);
-            //Category? category2 = _db.Categories.Where(g => g.Id == id).FirstOrDefault();
+            Category? category = _categoryRepo.Get(c => c.Id == id);
+            //Category? category1 = _categoryRepo.Categories.FirstOrDefault(g => g.Id == id);
+            //Category? category2 = _categoryRepo.Categories.Where(g => g.Id == id).FirstOrDefault();
             if (category is null)
             {
                 return NotFound();
@@ -66,8 +67,8 @@ namespace DVDStore.Controllers
         {
             if (ModelState.IsValid)
             {
-                _db.Categories.Update(obj);
-                _db.SaveChanges();
+                _categoryRepo.Update(obj);
+                _categoryRepo.Save();
                 TempData["success"] = "Genre updated successfully!";
                 return RedirectToAction("Index", "Category");
             }
@@ -84,7 +85,7 @@ namespace DVDStore.Controllers
                 return NotFound();
             }
             
-            Category? category = _db.Categories.Find(id);
+            Category? category = _categoryRepo.Get(c => c.Id == id);
 
             if (category is null)
             {
@@ -96,14 +97,14 @@ namespace DVDStore.Controllers
         [HttpPost, ActionName("Delete")]
         public IActionResult DeletePOST(int? id)
         {
-            Category? objToRemove = _db.Categories.FirstOrDefault(cat => cat.Id == id);
+            Category? objToRemove = _categoryRepo.Get(c => c.Id == id);
             if (objToRemove is null)
             {
                 return NotFound();
             }
 
-            _db.Categories.Remove(objToRemove);
-            _db.SaveChanges();
+            _categoryRepo.Delete(objToRemove);
+            _categoryRepo.Save();
             TempData["success"] = "Genre deleted successfully!";
             return RedirectToAction("Index", "Category");
         }

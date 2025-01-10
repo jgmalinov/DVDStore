@@ -5,7 +5,11 @@ VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DVDStore", "DVDStore\DVDStore.csproj", "{7EB87341-0422-41A1-8BCA-B495C230EAE2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DVDStore_RazorPages", "DVDStore_RazorPages\DVDStore_RazorPages.csproj", "{9094D72D-3DB9-49C6-9333-03B1CE69131D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DVDStore.DataAccess", "DVDStore.DataAccess\DVDStore.DataAccess.csproj", "{6D07EBE2-3CBC-4439-96B3-1FAB7E213A54}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DVDStore.Models", "DVDStore.Models\DVDStore.Models.csproj", "{0E109D5E-E67C-433C-9F9D-822EDCBF56E2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DVDStore.Utilities", "DVDStore.Utilities\DVDStore.Utilities.csproj", "{059A6253-9A33-40DF-9460-1608D5B2F8CD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +21,18 @@ Global
 		{7EB87341-0422-41A1-8BCA-B495C230EAE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7EB87341-0422-41A1-8BCA-B495C230EAE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7EB87341-0422-41A1-8BCA-B495C230EAE2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9094D72D-3DB9-49C6-9333-03B1CE69131D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9094D72D-3DB9-49C6-9333-03B1CE69131D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9094D72D-3DB9-49C6-9333-03B1CE69131D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9094D72D-3DB9-49C6-9333-03B1CE69131D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D07EBE2-3CBC-4439-96B3-1FAB7E213A54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D07EBE2-3CBC-4439-96B3-1FAB7E213A54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D07EBE2-3CBC-4439-96B3-1FAB7E213A54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D07EBE2-3CBC-4439-96B3-1FAB7E213A54}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E109D5E-E67C-433C-9F9D-822EDCBF56E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E109D5E-E67C-433C-9F9D-822EDCBF56E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E109D5E-E67C-433C-9F9D-822EDCBF56E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E109D5E-E67C-433C-9F9D-822EDCBF56E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{059A6253-9A33-40DF-9460-1608D5B2F8CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{059A6253-9A33-40DF-9460-1608D5B2F8CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{059A6253-9A33-40DF-9460-1608D5B2F8CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{059A6253-9A33-40DF-9460-1608D5B2F8CD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

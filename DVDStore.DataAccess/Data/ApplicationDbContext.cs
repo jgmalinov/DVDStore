@@ -1,6 +1,6 @@
 ﻿using DVDStore.Models;
 using Microsoft.EntityFrameworkCore;
-namespace DVDStore.Data
+namespace DVDStore.DataAccess.Data
 {
     public class ApplicationDbContext: DbContext
     {

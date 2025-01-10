@@ -4,7 +4,7 @@
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace DVDStore.Migrations
+namespace DVDStore.DataAccess.Migrations
 {
     /// <inheritdoc />
     public partial class seedCategoryTable : Migration

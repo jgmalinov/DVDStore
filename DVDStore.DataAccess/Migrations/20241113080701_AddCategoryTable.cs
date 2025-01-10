@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace DVDStore.Migrations
+namespace DVDStore.DataAccess.Migrations
 {
     /// <inheritdoc />
     public partial class AddCategoryTable : Migration
