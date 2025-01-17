@@ -1,4 +1,4 @@
-namespace DVDStore.Models
+namespace MovieStore.Models
 {
     public class ErrorViewModel
     {

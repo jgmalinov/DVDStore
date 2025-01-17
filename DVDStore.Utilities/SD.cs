@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DVDStore.Utilities
+namespace MovieStore.Utilities
 {
     public static class SD
     {

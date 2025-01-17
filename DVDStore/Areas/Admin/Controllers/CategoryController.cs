@@ -1,20 +1,21 @@
-﻿using DVDStore.DataAccess.Data;
-using DVDStore.DataAccess.Repository;
-using DVDStore.Models;
+﻿using MovieStore.DataAccess.Data;
+using MovieStore.DataAccess.Repository;
+using MovieStore.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DVDStore.Controllers
+namespace MovieStore.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class CategoryController : Controller
     {
-        private readonly ICategoryRepository _categoryRepo;
-        public CategoryController(ICategoryRepository categoryRepo)
+        private readonly IUnitOfWork _unitOfWork;
+        public CategoryController(IUnitOfWork unitOfWork)
         {
-            _categoryRepo = categoryRepo;
+            _unitOfWork = unitOfWork;
         }
         public IActionResult Index()
         {
-            List<Category> objCategoryList = _categoryRepo.GetAll().ToList();
+            List<Category> objCategoryList = _unitOfWork.Category.GetAll().ToList();
             return View(objCategoryList);
         }
 
@@ -36,8 +37,8 @@ namespace DVDStore.Controllers
             //}
             if (ModelState.IsValid)
             {
-                _categoryRepo.Add(obj);
-                _categoryRepo.Save();
+                _unitOfWork.Category.Add(obj);
+                _unitOfWork.Save();
                 TempData["success"] = "Genre created successfully!";
                 return RedirectToAction("Index", "Category");
             }
@@ -52,7 +53,7 @@ namespace DVDStore.Controllers
             {
                 return NotFound();
             }
-            Category? category = _categoryRepo.Get(c => c.Id == id);
+            Category? category = _unitOfWork.Category.Get(c => c.Id == id);
             //Category? category1 = _categoryRepo.Categories.FirstOrDefault(g => g.Id == id);
             //Category? category2 = _categoryRepo.Categories.Where(g => g.Id == id).FirstOrDefault();
             if (category is null)
@@ -67,8 +68,8 @@ namespace DVDStore.Controllers
         {
             if (ModelState.IsValid)
             {
-                _categoryRepo.Update(obj);
-                _categoryRepo.Save();
+                _unitOfWork.Category.Update(obj);
+                _unitOfWork.Save();
                 TempData["success"] = "Genre updated successfully!";
                 return RedirectToAction("Index", "Category");
             }
@@ -84,8 +85,8 @@ namespace DVDStore.Controllers
             {
                 return NotFound();
             }
-            
-            Category? category = _categoryRepo.Get(c => c.Id == id);
+
+            Category? category = _unitOfWork.Category.Get(c => c.Id == id);
 
             if (category is null)
             {
@@ -97,14 +98,14 @@ namespace DVDStore.Controllers
         [HttpPost, ActionName("Delete")]
         public IActionResult DeletePOST(int? id)
         {
-            Category? objToRemove = _categoryRepo.Get(c => c.Id == id);
+            Category? objToRemove = _unitOfWork.Category.Get(c => c.Id == id);
             if (objToRemove is null)
             {
                 return NotFound();
             }
 
-            _categoryRepo.Delete(objToRemove);
-            _categoryRepo.Save();
+            _unitOfWork.Category.Delete(objToRemove);
+            _unitOfWork.Save();
             TempData["success"] = "Genre deleted successfully!";
             return RedirectToAction("Index", "Category");
         }

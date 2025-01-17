@@ -1,5 +1,5 @@
-﻿using DVDStore.DataAccess.Data;
-using DVDStore.Models;
+﻿using MovieStore.DataAccess.Data;
+using MovieStore.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DVDStore.DataAccess.Repository
+namespace MovieStore.DataAccess.Repository
 {
     public class Repository<T> : IRepository<T> where T : class
     {

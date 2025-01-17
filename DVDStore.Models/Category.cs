@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace DVDStore.Models
+namespace MovieStore.Models
 {
     public class Category
     {

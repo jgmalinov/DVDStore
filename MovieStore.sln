@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DVDStore", "DVDStore\DVDStore.csproj", "{7EB87341-0422-41A1-8BCA-B495C230EAE2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieStore", "DVDStore\MovieStore.csproj", "{7EB87341-0422-41A1-8BCA-B495C230EAE2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DVDStore.DataAccess", "DVDStore.DataAccess\DVDStore.DataAccess.csproj", "{6D07EBE2-3CBC-4439-96B3-1FAB7E213A54}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieStore.DataAccess", "DVDStore.DataAccess\MovieStore.DataAccess.csproj", "{6D07EBE2-3CBC-4439-96B3-1FAB7E213A54}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DVDStore.Models", "DVDStore.Models\DVDStore.Models.csproj", "{0E109D5E-E67C-433C-9F9D-822EDCBF56E2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieStore.Models", "DVDStore.Models\MovieStore.Models.csproj", "{0E109D5E-E67C-433C-9F9D-822EDCBF56E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DVDStore.Utilities", "DVDStore.Utilities\DVDStore.Utilities.csproj", "{059A6253-9A33-40DF-9460-1608D5B2F8CD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieStore.Utilities", "DVDStore.Utilities\MovieStore.Utilities.csproj", "{059A6253-9A33-40DF-9460-1608D5B2F8CD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

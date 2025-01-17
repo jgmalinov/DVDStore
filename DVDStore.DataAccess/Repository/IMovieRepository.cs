@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace MovieStore.DataAccess.Repository
 {
-    public interface ICategoryRepository: IRepository<Category>
+    public interface IMovieRepository: IRepository<Movie>
     {
-        void Update(Category category);
+        void Update(Movie movie);
     }
 }

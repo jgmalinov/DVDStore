@@ -1,9 +1,10 @@
-using DVDStore.Models;
+using MovieStore.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
-namespace DVDStore.Controllers
+namespace MovieStore.Areas.Customer.Controllers
 {
+    [Area("Customer")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

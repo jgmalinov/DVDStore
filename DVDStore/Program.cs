@@ -1,8 +1,8 @@
-using DVDStore.DataAccess.Data;
-using DVDStore.DataAccess.Repository;
+using MovieStore.DataAccess.Data;
+using MovieStore.DataAccess.Repository;
 using Microsoft.EntityFrameworkCore;
 
-namespace DVDStore
+namespace MovieStore
 {
     public class Program
     {
@@ -12,9 +12,10 @@ namespace DVDStore
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-            builder.Services.AddDbContext<ApplicationDbContext>(options => 
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-            builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
+                b => b.MigrationsAssembly("MovieStore")));
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 
             var app = builder.Build();
@@ -36,7 +37,7 @@ namespace DVDStore
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");
 
             app.Run();
         }
