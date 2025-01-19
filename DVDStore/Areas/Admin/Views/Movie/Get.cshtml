@@ -1,0 +1,88 @@
+﻿@{
+    ViewData["Title"] = "Movie Details";
+}
+@model Movie
+
+<div class="container-fluid">
+    <table class="table table-info">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayFor(m => m.Title);
+                </th>
+                <th>
+                    @Html.DisplayFor(m => m.ReleaseDate);
+                </th>
+                <th>
+                    @Html.DisplayFor(m => m.Price);
+                </th>
+                <th>
+                    @Html.DisplayFor(m => m.Price5);
+                </th>
+                <th>
+                    @Html.DisplayFor(m => m.Price10);
+                </th>
+                <th>
+                    @Html.DisplayFor(m => m.Director);
+                </th>
+                <th>
+                    @Html.DisplayFor(m => m.Writers);
+                </th>
+                <th>
+                    @Html.DisplayFor(m => m.Actors);
+                </th>
+                <th>
+                    @Html.DisplayFor(m => m.Summary);
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    @Model.Title;
+                </td>
+                <td>
+                    @Model.ReleaseDate;
+                </td>
+                <td>
+                    @Model.Price;
+                </td>
+                <td>
+                    @Model.Price5;
+                </td>
+                <td>
+                    @Model.Price10;
+                </td>
+                <td>
+                    @Model.Director;
+                </td>
+                <td>
+                    <ul class="list-group list-unstyled">
+                        @foreach(var writer in Model.Writers)
+                        {
+                            <li class="list-group-item-info">
+                                <a asp-controller="Person" asp-action="Get" asp-route-id=@writer.Id>@writer.Name</a>
+                            </li>
+                        }
+                    </ul>
+                </td>
+                <td>
+                    <ul class="list-group list-unstyled">
+                        @foreach (var actor in Model.Actors)
+                        {
+                            <li class="list-group-item-info">
+                                <a asp-controller="Person" asp-action="Get" asp-route-id=@actor.Id>@actor.Name</a>
+                            </li>
+                        }
+                    </ul>
+                </td>
+                <td>
+                    <p class="card-info">
+                        @Model.Summary
+                    </p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <a class="btn btn-primary" asp-action="Index">Back to Movies</a>
+</div>

@@ -8,9 +8,9 @@ namespace MovieStore.DataAccess.Repository
 {
     public interface IUnitOfWork
     {
-        ICategoryRepository Category { get; }
-        IMovieRepository Movie { get; }
-        IPersonRepository Person { get; }
+        ICategoryRepository Categories { get; }
+        IMovieRepository Movies { get; }
+        IPersonRepository People { get; }
         void Save();
     }
 }
