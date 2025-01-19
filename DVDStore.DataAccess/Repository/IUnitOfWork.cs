@@ -10,6 +10,7 @@ namespace MovieStore.DataAccess.Repository
     {
         ICategoryRepository Category { get; }
         IMovieRepository Movie { get; }
+        IPersonRepository Person { get; }
         void Save();
     }
 }

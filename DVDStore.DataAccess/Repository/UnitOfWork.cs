@@ -12,11 +12,13 @@ namespace MovieStore.DataAccess.Repository
         private ApplicationDbContext _db;
         public ICategoryRepository Category { get; private set; }
         public IMovieRepository Movie { get; private set; }
+        public IPersonRepository Person { get; private set; }
         public UnitOfWork(ApplicationDbContext db) 
         {
             _db = db;
             Category = new CategoryRepository(_db);
             Movie = new MovieRepository(_db);
+            Person = new PersonRepository(_db);
         }
         public void Save() { _db.SaveChanges(); }
     }

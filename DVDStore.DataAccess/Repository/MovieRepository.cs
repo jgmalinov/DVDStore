@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MovieStore.DataAccess.Data;
-using MovieStore.Models
+using MovieStore.Models;
 
 
 namespace MovieStore.DataAccess.Repository
