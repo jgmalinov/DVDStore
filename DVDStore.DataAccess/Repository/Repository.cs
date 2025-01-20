@@ -24,13 +24,7 @@ namespace MovieStore.DataAccess.Repository
         {
             dbSet.Add(entity);
         }
-        public T Get(Expression<Func<T, bool>> filter)
-        {
-            IQueryable<T> query = dbSet;
-            query = query.Where(filter);
-            return query.FirstOrDefault();
 
-        }
         public IEnumerable<T> GetAll()
         {
             IQueryable<T> query = dbSet;

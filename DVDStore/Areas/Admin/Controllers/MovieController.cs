@@ -5,6 +5,7 @@ using MovieStore.Models;
 
 namespace MovieStore.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class MovieController : Controller
     {
         private IUnitOfWork _unitOfWork { get; set; }
