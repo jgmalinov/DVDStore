@@ -12,7 +12,7 @@ using MovieStore.DataAccess.Data;
 namespace MovieStore.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250116160254_InitialMigration")]
+    [Migration("20250123103718_Initial Migration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -63,6 +63,12 @@ namespace MovieStore.Migrations
                             Id = 3,
                             DisplayOrder = 3,
                             Name = "History"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            DisplayOrder = 4,
+                            Name = "Drama"
                         });
                 });
 
@@ -74,8 +80,20 @@ namespace MovieStore.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
                     b.Property<int>("DirectorId")
                         .HasColumnType("int");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Price10")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Price5")
+                        .HasColumnType("float");
 
                     b.Property<DateOnly>("ReleaseDate")
                         .HasColumnType("date");
@@ -90,9 +108,25 @@ namespace MovieStore.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CategoryId");
+
                     b.HasIndex("DirectorId");
 
                     b.ToTable("Movies");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CategoryId = 4,
+                            DirectorId = 2,
+                            Price = 0.0,
+                            Price10 = 0.0,
+                            Price5 = 0.0,
+                            ReleaseDate = new DateOnly(2020, 1, 27),
+                            Summary = "The Father is a 2020 psychological drama film, directed by Florian Zeller in his directorial debut. The film stars Anthony Hopkins as an octogenarian Welsh man living with dementia. At the 93rd Academy Awards, The Father received six nominations, including Best Picture; Hopkins won Best Actor and Zeller and Hampton won Best Adapted Screenplay. Since then, it has been cited as one of the best films of the 2020s and the 21st century.",
+                            Title = "The Father"
+                        });
                 });
 
             modelBuilder.Entity("MovieStore.Models.MoviesActors", b =>
@@ -108,6 +142,13 @@ namespace MovieStore.Migrations
                     b.HasIndex("MovieId");
 
                     b.ToTable("MoviesActors");
+
+                    b.HasData(
+                        new
+                        {
+                            ActorId = 1,
+                            MovieId = 1
+                        });
                 });
 
             modelBuilder.Entity("MovieStore.Models.MoviesWriters", b =>
@@ -123,6 +164,13 @@ namespace MovieStore.Migrations
                     b.HasIndex("WriterId");
 
                     b.ToTable("MoviesWriters");
+
+                    b.HasData(
+                        new
+                        {
+                            MovieId = 1,
+                            WriterId = 2
+                        });
                 });
 
             modelBuilder.Entity("MovieStore.Models.Person", b =>
@@ -144,15 +192,37 @@ namespace MovieStore.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("People");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Background = " One of Britain's most recognisable and prolific actors, he is known for his performances on the screen and stage. Hopkins has received numerous accolades, including two Academy Awards, four BAFTA Awards, two Primetime Emmy Awards, and a Laurence Olivier Award.",
+                            Name = "Anthony Hopkins"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Background = "Florian Zeller is a French novelist, playwright, theatre director, screenwriter, and film director. He has written over a dozen plays, that have been staged worldwide and have made him one of the most celebrated contemporary playwrights.",
+                            Name = "Florian Zeller"
+                        });
                 });
 
             modelBuilder.Entity("MovieStore.Models.Movie", b =>
                 {
+                    b.HasOne("MovieStore.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("MovieStore.Models.Person", "Director")
                         .WithMany("MoviesDirected")
                         .HasForeignKey("DirectorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Category");
 
                     b.Navigation("Director");
                 });

@@ -50,11 +50,21 @@ namespace MovieStore.Migrations
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ReleaseDate = table.Column<DateOnly>(type: "date", nullable: false),
                     Summary = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Price = table.Column<double>(type: "float", nullable: false),
+                    Price5 = table.Column<double>(type: "float", nullable: false),
+                    Price10 = table.Column<double>(type: "float", nullable: false),
+                    CategoryId = table.Column<int>(type: "int", nullable: false),
                     DirectorId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Movies", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Movies_Categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Movies_People_DirectorId",
                         column: x => x.DirectorId,
@@ -118,8 +128,38 @@ namespace MovieStore.Migrations
                 {
                     { 1, 1, "Action" },
                     { 2, 2, "Horror" },
-                    { 3, 3, "History" }
+                    { 3, 3, "History" },
+                    { 4, 4, "Drama" }
                 });
+
+            migrationBuilder.InsertData(
+                table: "People",
+                columns: new[] { "Id", "Background", "Name" },
+                values: new object[,]
+                {
+                    { 1, " One of Britain's most recognisable and prolific actors, he is known for his performances on the screen and stage. Hopkins has received numerous accolades, including two Academy Awards, four BAFTA Awards, two Primetime Emmy Awards, and a Laurence Olivier Award.", "Anthony Hopkins" },
+                    { 2, "Florian Zeller is a French novelist, playwright, theatre director, screenwriter, and film director. He has written over a dozen plays, that have been staged worldwide and have made him one of the most celebrated contemporary playwrights.", "Florian Zeller" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Movies",
+                columns: new[] { "Id", "CategoryId", "DirectorId", "Price", "Price10", "Price5", "ReleaseDate", "Summary", "Title" },
+                values: new object[] { 1, 4, 2, 0.0, 0.0, 0.0, new DateOnly(2020, 1, 27), "The Father is a 2020 psychological drama film, directed by Florian Zeller in his directorial debut. The film stars Anthony Hopkins as an octogenarian Welsh man living with dementia. At the 93rd Academy Awards, The Father received six nominations, including Best Picture; Hopkins won Best Actor and Zeller and Hampton won Best Adapted Screenplay. Since then, it has been cited as one of the best films of the 2020s and the 21st century.", "The Father" });
+
+            migrationBuilder.InsertData(
+                table: "MoviesActors",
+                columns: new[] { "ActorId", "MovieId" },
+                values: new object[] { 1, 1 });
+
+            migrationBuilder.InsertData(
+                table: "MoviesWriters",
+                columns: new[] { "MovieId", "WriterId" },
+                values: new object[] { 1, 2 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Movies_CategoryId",
+                table: "Movies",
+                column: "CategoryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Movies_DirectorId",
@@ -141,9 +181,6 @@ namespace MovieStore.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Categories");
-
-            migrationBuilder.DropTable(
                 name: "MoviesActors");
 
             migrationBuilder.DropTable(
@@ -151,6 +188,9 @@ namespace MovieStore.Migrations
 
             migrationBuilder.DropTable(
                 name: "Movies");
+
+            migrationBuilder.DropTable(
+                name: "Categories");
 
             migrationBuilder.DropTable(
                 name: "People");

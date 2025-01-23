@@ -29,9 +29,20 @@ namespace MovieStore.Areas.Admin.Controllers
             return View(movieToGet);
         }
         [HttpGet]
-        public IActionResult Create()
+        public IActionResult CreateView(MovieCreateModel movieCreateModel)
         {
-            return View();
+            List<Person> people = _unitOfWork.People.GetAll().ToList();
+            List<Category> categories = _unitOfWork.Categories.GetAll().ToList();
+            ViewData["People"] = people;
+            ViewData["Categories"] = categories;
+            if (movieCreateModel == null)
+            {
+                return View("Create");
+            }
+            else
+            {
+                return View("Create", movieCreateModel);
+            }
         }
         [HttpPost]
         public IActionResult Create(Movie movie)
