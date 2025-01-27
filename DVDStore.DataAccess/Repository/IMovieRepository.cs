@@ -11,6 +11,7 @@ namespace MovieStore.DataAccess.Repository
     public interface IMovieRepository: IRepository<Movie>
     {
         Movie Get(Expression<Func<Movie, bool>> filter);
+        List<Movie> Filter(Expression<Func<Movie, bool> filter);
         void Update(Movie movie);
     }
 }

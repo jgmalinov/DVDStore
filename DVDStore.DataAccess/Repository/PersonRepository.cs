@@ -11,6 +11,7 @@ namespace MovieStore.DataAccess.Repository
 {
     public class PersonRepository: Repository<Person>, IPersonRepository
     {
+        public PersonRepository(ApplicationDbContext db): base(db) { }
         public Person? Get(Expression<Func<Person, bool>> exp)
         {
             Person? person = _db.People.FirstOrDefault(exp);
@@ -19,7 +20,17 @@ namespace MovieStore.DataAccess.Repository
             _db.Entry(person).Collection(p => p.MoviesStarredIn).Load();
             return person;
         }
-        public PersonRepository(ApplicationDbContext db): base(db) { }
+        public List<Person> Filter(Expression<Func<Person, bool>> filter)
+        {
+            List<Person> people  =_db.People.Where(filter).ToList();
+            foreach(var person in people)
+            {
+                _db.Entry(person).Collection(p => p.MoviesWrittenFor).Load();
+                _db.Entry(person).Collection(p => p.MoviesDirected).Load();
+                _db.Entry(person).Collection(p => p.MoviesStarredIn).Load();
+            }
+            return people;
+        }
         public void Update(Person person)
         {
             _db.People.Update(person);

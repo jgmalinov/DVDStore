@@ -21,6 +21,18 @@ namespace MovieStore.DataAccess.Repository
             _db.Entry(movie).Collection(m => m.Actors).Load();
             return movie;
         }
+
+        public List<Movie> Filter(Expression<Func<Movie, bool>> filter)
+        {
+            List<Movie> movies =_db.Movies.Where(filter).ToList();
+            foreach(var movie in movies)
+            {
+                _db.Entry(movie).Reference(m => m.Director).Load();
+                _db.Entry(movie).Collection(m => m.Writers).Load();
+                _db.Entry(movie).Collection(m => m.Actors).Load();
+            }
+            return movies;
+        }
         public void Update(Movie movie)
         {
             Movie? _movie = _db.Movies.FirstOrDefault(m => m.Id == movie.Id);

@@ -11,6 +11,7 @@ namespace MovieStore.DataAccess.Repository
     public interface IPersonRepository: IRepository<Person>
     {
         Person Get(Expression<Func<Person, bool>> filter);
+        List<Movie> Filter(Expression<Func<Person, bool>> filter);
         public void Update(Person person);
     }
 }

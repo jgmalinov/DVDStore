@@ -45,13 +45,15 @@ namespace MovieStore.Areas.Admin.Controllers
             }
         }
         [HttpPost]
-        public IActionResult Create(Movie movie)
+        public IActionResult Create(MovieCreateModel movieCreateModel)
         {
-            if (movie == null || !ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                return View(movie);
+                return View(movieCreateModel);
             }
-            _unitOfWork.Movies.Add(movie);
+            Person director = _unitOfWork.People.Get(p => p.Id == movieCreateModel.DirectorId);
+            List<Person> Writers = 
+            _unitOfWork.Movies.Add();
             _unitOfWork.Save();
             return RedirectToAction("Index");
         }

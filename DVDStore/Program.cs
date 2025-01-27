@@ -12,12 +12,19 @@ namespace MovieStore
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            if (builder.Environment.IsDevelopment())
+            {
+                builder.Services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlite(builder.Configuration.GetConnectionString("Development"),
+                b => b.MigrationsAssembly("MovieStore")));
+            } else
+            {
+                builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
                 b => b.MigrationsAssembly("MovieStore")));
+            }
+            
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-
-
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

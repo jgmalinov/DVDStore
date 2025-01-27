@@ -17,10 +17,10 @@ namespace MovieStore.Migrations
                 name: "Categories",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    DisplayOrder = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", maxLength: 30, nullable: false),
+                    DisplayOrder = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -31,10 +31,10 @@ namespace MovieStore.Migrations
                 name: "People",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Background = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Background = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -45,16 +45,16 @@ namespace MovieStore.Migrations
                 name: "Movies",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ReleaseDate = table.Column<DateOnly>(type: "date", nullable: false),
-                    Summary = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Price = table.Column<double>(type: "float", nullable: false),
-                    Price5 = table.Column<double>(type: "float", nullable: false),
-                    Price10 = table.Column<double>(type: "float", nullable: false),
-                    CategoryId = table.Column<int>(type: "int", nullable: false),
-                    DirectorId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Title = table.Column<string>(type: "TEXT", nullable: false),
+                    ReleaseDate = table.Column<DateOnly>(type: "TEXT", nullable: false),
+                    Summary = table.Column<string>(type: "TEXT", nullable: false),
+                    Price = table.Column<double>(type: "REAL", nullable: false),
+                    Price5 = table.Column<double>(type: "REAL", nullable: false),
+                    Price10 = table.Column<double>(type: "REAL", nullable: false),
+                    CategoryId = table.Column<int>(type: "INTEGER", nullable: false),
+                    DirectorId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -77,8 +77,8 @@ namespace MovieStore.Migrations
                 name: "MoviesActors",
                 columns: table => new
                 {
-                    MovieId = table.Column<int>(type: "int", nullable: false),
-                    ActorId = table.Column<int>(type: "int", nullable: false)
+                    MovieId = table.Column<int>(type: "INTEGER", nullable: false),
+                    ActorId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -101,8 +101,8 @@ namespace MovieStore.Migrations
                 name: "MoviesWriters",
                 columns: table => new
                 {
-                    MovieId = table.Column<int>(type: "int", nullable: false),
-                    WriterId = table.Column<int>(type: "int", nullable: false)
+                    MovieId = table.Column<int>(type: "INTEGER", nullable: false),
+                    WriterId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
