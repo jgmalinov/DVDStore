@@ -33,6 +33,8 @@ namespace MovieStore.DataAccess.Repository
             }
             return movies;
         }
+
+        public List<Movie> FilterFromView()
         public void Update(Movie movie)
         {
             Movie? _movie = _db.Movies.FirstOrDefault(m => m.Id == movie.Id);

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MovieStore.DataAccess.Repository
 {
-    public interface ICategoryRepository: IRepository<Category>
+    public interface ICategoryRepository: ICustomRepository<Category>
     {
         Category Get(Expression<Func<Category, bool>> filter);
         void Update(Category category);

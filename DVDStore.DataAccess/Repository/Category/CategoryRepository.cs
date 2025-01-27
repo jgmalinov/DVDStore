@@ -17,6 +17,11 @@ namespace MovieStore.DataAccess.Repository
             Category? cat = _db.Categories.FirstOrDefault(exp);
             return cat;
         }
+        public List<Category> Filter(Expression<Func<Category, bool>> exp)
+        {
+            List<Category> categories = _db.Categories.Where(exp).ToList();
+            return categories;
+        }
         public void Update(Category category)
         {
             _db.Categories.Update(category);

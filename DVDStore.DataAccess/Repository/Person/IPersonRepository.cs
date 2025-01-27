@@ -8,7 +8,7 @@ using MovieStore.Models;
 
 namespace MovieStore.DataAccess.Repository
 {
-    public interface IPersonRepository: IRepository<Person>
+    public interface IPersonRepository: ICustomRepository<Person>
     {
         Person Get(Expression<Func<Person, bool>> filter);
         List<Movie> Filter(Expression<Func<Person, bool>> filter);

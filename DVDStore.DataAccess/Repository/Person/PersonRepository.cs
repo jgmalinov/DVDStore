@@ -9,7 +9,7 @@ using MovieStore.Models;
 
 namespace MovieStore.DataAccess.Repository
 {
-    public class PersonRepository: Repository<Person>, IPersonRepository
+    public class PersonRepository: Repository<Person>, ICustomRepository<Person>
     {
         public PersonRepository(ApplicationDbContext db): base(db) { }
         public Person? Get(Expression<Func<Person, bool>> exp)

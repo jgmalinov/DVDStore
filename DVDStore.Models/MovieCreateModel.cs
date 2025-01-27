@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MovieStore.Models
 {
-    public class MovieCreateModel
+    public class MovieCreateModel: IViewModel
     {
         public string Title { get; set; }
         [Required]
