@@ -1,4 +1,5 @@
 ﻿using MovieStore.Models;
+using MovieStore.DataAccess.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,10 +9,5 @@ using System.Threading.Tasks;
 
 namespace MovieStore.DataAccess.Repository
 {
-    public interface IMovieRepository: IRepository<Movie>
-    {
-        Movie Get(Expression<Func<Movie, bool>> filter);
-        List<Movie> Filter(Expression<Func<Movie, bool> filter);
-        void Update(Movie movie);
-    }
+    public interface IMovieRepository: ICustomRepository<Movie> {}
 }

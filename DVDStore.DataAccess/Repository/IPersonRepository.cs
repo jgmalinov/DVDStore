@@ -12,6 +12,6 @@ namespace MovieStore.DataAccess.Repository
     {
         Person Get(Expression<Func<Person, bool>> filter);
         List<Movie> Filter(Expression<Func<Person, bool>> filter);
-        public void Update(Person person);
+        void Update(Person person);
     }
 }

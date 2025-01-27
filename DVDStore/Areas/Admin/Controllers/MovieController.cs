@@ -52,7 +52,11 @@ namespace MovieStore.Areas.Admin.Controllers
                 return View(movieCreateModel);
             }
             Person director = _unitOfWork.People.Get(p => p.Id == movieCreateModel.DirectorId);
-            List<Person> Writers = 
+            List<Person> Writers = movieCreateModel.Writers
+                                   .Where(w => w.isChecked)
+                                   .Select(w => w.Person)
+                                   .ToList();
+                                   
             _unitOfWork.Movies.Add();
             _unitOfWork.Save();
             return RedirectToAction("Index");
