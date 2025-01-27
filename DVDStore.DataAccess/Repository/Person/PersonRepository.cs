@@ -9,7 +9,7 @@ using MovieStore.Models;
 
 namespace MovieStore.DataAccess.Repository
 {
-    public class PersonRepository: Repository<Person>, ICustomRepository<Person>
+    public class PersonRepository: Repository<Person>, IPersonRepository
     {
         public PersonRepository(ApplicationDbContext db): base(db) { }
         public Person? Get(Expression<Func<Person, bool>> exp)
@@ -30,6 +30,10 @@ namespace MovieStore.DataAccess.Repository
                 _db.Entry(person).Collection(p => p.MoviesStarredIn).Load();
             }
             return people;
+        }
+        public List<Person> FilterFromView(MovieCreateModel mcm, string relationship)
+        {
+            throw new NotImplementedException();
         }
         public void Update(Person person)
         {

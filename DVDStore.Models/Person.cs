@@ -15,10 +15,10 @@ namespace MovieStore.Models
         public string Name { get; set; }
         public string Background { get; set; }
         [Display(Name = "Movies Directed")]
-        public IEnumerable<Movie> MoviesDirected {  get; set; }
+        public IEnumerable<Movie>? MoviesDirected {  get; set; }
         [Display(Name = "Filmography")]
-        public IEnumerable<Movie> MoviesStarredIn { get; set; }
+        public IEnumerable<Movie>? MoviesStarredIn { get; set; }
         [Display(Name = "Writer Credits")]
-        public IEnumerable<Movie> MoviesWrittenFor { get; set; }
+        public IEnumerable<Movie>? MoviesWrittenFor { get; set; }
     }
 }

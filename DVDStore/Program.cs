@@ -25,6 +25,7 @@ namespace MovieStore
             }
             
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddDataProtection();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

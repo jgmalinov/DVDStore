@@ -2,8 +2,14 @@
 @{
     var people = ViewData["People"] as List<Person>;
     var categories = ViewData["Categories"] as List<Category>;
-    Model.Writers = new List<PersonCheckModel>(new PersonCheckModel[people.Count]) { };
-    Model.Actors = new List<PersonCheckModel>(new PersonCheckModel[people.Count]) { };
+    for (var i=0; i<people.Count;i++)
+    {
+        Model.Writers.Add(new PersonCheckModel());
+        Model.Actors.Add(new PersonCheckModel());
+        
+        Model.Writers[i].Person = people[i];
+        Model.Actors[i].Person = people[i];
+    }
 }
 <div class="="card shadow border-0 mt-4>
     <div class="card-header bg-secondary bg-gradient ml-0 py-3">
@@ -14,7 +20,7 @@
         </div>
     </div>
     <div class="card-body p-4">
-        <form method="post">
+        <form method="post" asp-action="Create">
             <div class="row pb-2">
                 <hr />
                 <div asp-validation-summary="ModelOnly"></div>
@@ -28,6 +34,11 @@
                 <label asp-for="ReleaseDate" class="p-0"></label>
                 <input asp-for="ReleaseDate" class="form-control" />
                 <span asp-validation-for="ReleaseDate" class="text-danger"></span>
+            </div>
+            <div class="mb-3 row p-1">
+                <label asp-for="Summary" class="p-0"></label>
+                <input asp-for="Summary" class="form-control" />
+                <span asp-validation-for="Summary" class="text-danger"></span>
             </div>
             <div class="mb-3 row p-1">
                 <label asp-for="Price" class="p-0"></label>
@@ -69,21 +80,22 @@
                 @for (int i=0; i < people.Count; i++)
                 {
                     <label asp-for="Writers[i].Person">@people[i].Name</label>
-                    <input asp-for="@Model.Writers[i].Person" value="@people[i]" hidden />
-                    <span asp-validation-for="@Model.Writers[i].Person" class="text-danger"></span>
                     <input type="checkbox" asp-for="@Model.Writers[i].isChecked" />
                     <span asp-validation-for="@Model.Writers[i].isChecked"></span>
+                    <input type="hidden" asp-for="@Model.Writers[i].Person.Name" value=@people[i].Name/>
+                    <input type="hidden" asp-for="@Model.Writers[i].Person.Background" value=@people[i].Background/>
+
                 }
             </div>
             <div class="mb-3 row p-1">
                 <h3>Actors</h3>
-                @for (int i = 0; i < people.Count; i++)
+                @for (var i = 0; i < people.Count; i++)
                 {
                     <label asp-for="Actors[i].Person">@people[i].Name</label>
-                    <input asp-for="@Model.Actors[i].Person" value="@people[i]" hidden />
-                    <span asp-validation-for="@Model.Actors[i].Person" class="text-danger"></span>
                     <input type="checkbox" asp-for="@Model.Actors[i].isChecked" />
                     <span asp-validation-for="@Model.Actors[i].isChecked"></span>
+                    <input type="hidden" asp-for="@Model.Actors[i].Person.Name" value=@people[i].Name/>
+                    <input type="hidden" asp-for="@Model.Actors[i].Person.Background" value=@people[i].Background/>
                 }
             </div>
             <div class="row">

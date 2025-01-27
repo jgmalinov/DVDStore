@@ -37,7 +37,7 @@ namespace MovieStore.Areas.Admin.Controllers
             ViewData["Categories"] = categories;
             if (movieCreateModel == null)
             {
-                return View("Create");
+                return View("Create", new MovieCreateModel());
             }
             else
             {
@@ -45,19 +45,25 @@ namespace MovieStore.Areas.Admin.Controllers
             }
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(MovieCreateModel movieCreateModel)
         {
+            // Model State is failing
             if (!ModelState.IsValid)
             {
+                List<Person> people = _unitOfWork.People.GetAll().ToList();
+                List<Category> categories = _unitOfWork.Categories.GetAll().ToList();
+                ViewData["People"] = people;
+                ViewData["Categories"] = categories;
                 return View(movieCreateModel);
             }
+
             Person director = _unitOfWork.People.Get(p => p.Id == movieCreateModel.DirectorId);
-            List<Person> Writers = movieCreateModel.Writers
-                                   .Where(w => w.isChecked)
-                                   .Select(w => w.Person)
-                                   .ToList();
-                                   
-            _unitOfWork.Movies.Add();
+            List<Person> Writers = _unitOfWork.Movies.FilterFromView(movieCreateModel, "Writers");
+            List<Person> Actors =  _unitOfWork.Movies.FilterFromView(movieCreateModel, "Actors");
+
+            Movie movie = _unitOfWork.Movies.Instantiate(movieCreateModel, Actors, Writers);                  
+            _unitOfWork.Movies.Add(movie);
             _unitOfWork.Save();
             return RedirectToAction("Index");
         }

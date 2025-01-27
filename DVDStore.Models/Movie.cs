@@ -36,8 +36,8 @@ namespace MovieStore.Models
         public Category Category { get; set; }
         [ForeignKey(nameof(Director))]
         public int DirectorId {  get; set; }
-        public Person Director { get; set; }
-        public List<Person> Writers { get; set; }
-        public List<Person> Actors {  get; set; }
+        public Person? Director { get; set; }
+        public List<Person>? Writers { get; set; }
+        public List<Person>? Actors {  get; set; }
     }
 }

@@ -10,7 +10,6 @@ namespace MovieStore.DataAccess.Repository;
 public interface ICustomRepository<T>: IRepository<T> where T: class
 {
     T Get(Expression<Func<T, bool>> filter);
-    List<T> Filter(Expression<Func<T, bool>> filter);
-    List<T> FilterFromView(IViewModel viewModel);
+    List<T> Filter(Expression<Func<T, bool>> filter);    
     void Update(T obj);
 }

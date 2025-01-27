@@ -33,8 +33,38 @@ namespace MovieStore.DataAccess.Repository
             }
             return movies;
         }
+        public List<Person> FilterFromView(MovieCreateModel mcm, string relationship)
+        {
+            List<Person> people = new List<Person>();
+            switch(relationship)
+            {
+                case "Actors":
+                    people = mcm.Actors.Where(a => a.isChecked).Select(a => a.Person).ToList();
+                    break;
+                case "Writers":
+                    people = mcm.Writers.Where(a => a.isChecked).Select(a => a.Person).ToList();
+                    break;
+            }
+            return people;
+        }
 
-        public List<Movie> FilterFromView()
+        public Movie Instantiate(MovieCreateModel mcm, List<Person> Actors, List<Person> Writers)
+        {
+            Movie movie = new Movie()
+            {
+                Title = mcm.Title,
+                ReleaseDate = mcm.ReleaseDate,
+                Price = mcm.Price,
+                Price5 = mcm.Price5,
+                Price10 = mcm.Price10,
+                Summary = mcm.Summary,
+                CategoryId = mcm.CategoryId,
+                DirectorId = mcm.DirectorId,
+                Actors = Actors,
+                Writers = Writers
+            };   
+            return movie;
+        }
         public void Update(Movie movie)
         {
             Movie? _movie = _db.Movies.FirstOrDefault(m => m.Id == movie.Id);

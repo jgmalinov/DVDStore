@@ -8,7 +8,7 @@ namespace MovieStore.Models
 {
     public class PersonCheckModel
     {
-        public Person Person {  get; set; }
+        public Person Person {  get; set; } = new Person() {};
         public bool isChecked {  get; set; }
     }
 }
