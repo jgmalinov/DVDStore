@@ -75,7 +75,8 @@ namespace MovieStore.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            return View(movieToUpdate);
+            MovieViewModel mvm = _unitOfWork.Movies.InstantiateMovieViewModel(movieToUpdate);
+            return View(mvm);
         }
         [HttpPost]
         public IActionResult Update(MovieViewModel mvm)

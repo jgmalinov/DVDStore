@@ -31,7 +31,7 @@ namespace MovieStore.DataAccess.Repository
             }
             return people;
         }
-        public List<Person> FilterFromView(MovieCreateModel mcm, string relationship)
+        public List<Person> FilterFromView(MovieViewModel mcm, string relationship)
         {
             throw new NotImplementedException();
         }

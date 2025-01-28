@@ -67,7 +67,7 @@ namespace MovieStore.DataAccess.Repository
         }
         public MovieViewModel InstantiateMovieViewModel(Movie movie)
         {
-            MovieViewModel mvm = new MovieViewModel(_db)
+            MovieViewModel mvm = new MovieViewModel()
             {
                 Title = movie.Title,
                 ReleaseDate = movie.ReleaseDate,
@@ -79,7 +79,14 @@ namespace MovieStore.DataAccess.Repository
                 DirectorId = movie.DirectorId,
             };
 
-            for (var i = 0; i < )
+            var i=0;
+            foreach (var person in _db.People.ToList())
+            {
+                mvm.Actors.Add(new PersonCheckModel() {Person = person, isChecked = false});
+                mvm.Writers.Add(new PersonCheckModel() {Person = person, isChecked = false});
+                i++;
+            }
+            return mvm;
         }
         public void Update(Movie movie)
         {
