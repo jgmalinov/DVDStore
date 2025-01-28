@@ -11,7 +11,8 @@ namespace MovieStore.DataAccess.Repository
 {
     public interface IMovieRepository: ICustomRepository<Movie> 
     {
-        List<Person> FilterFromView(MovieCreateModel mcm, string relationship);
-        Movie Instantiate(MovieCreateModel mcm, List<Person> Actors, List<Person> Writers);
+        List<Person> ExtractPeople(MovieViewModel mvm, string relationship);
+        Movie InstantiateMovie(MovieViewModel mcm, List<Person> Actors, List<Person> Writers);
+        MovieViewModel InstantiateMovieViewModel(Movie movie);
     }
 }

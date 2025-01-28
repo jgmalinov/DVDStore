@@ -29,24 +29,24 @@ namespace MovieStore.Areas.Admin.Controllers
             return View(movieToGet);
         }
         [HttpGet]
-        public IActionResult CreateView(MovieCreateModel movieCreateModel)
+        public IActionResult CreateView(MovieViewModel mvm)
         {
             List<Person> people = _unitOfWork.People.GetAll().ToList();
             List<Category> categories = _unitOfWork.Categories.GetAll().ToList();
             ViewData["People"] = people;
             ViewData["Categories"] = categories;
-            if (movieCreateModel == null)
+            if (mvm == null)
             {
-                return View("Create", new MovieCreateModel());
+                return View("Create", new MovieViewModel());
             }
             else
             {
-                return View("Create", movieCreateModel);
+                return View("Create", mvm);
             }
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(MovieCreateModel movieCreateModel)
+        public IActionResult Create(MovieViewModel mvm)
         {
             // Model State is failing
             if (!ModelState.IsValid)
@@ -55,19 +55,19 @@ namespace MovieStore.Areas.Admin.Controllers
                 List<Category> categories = _unitOfWork.Categories.GetAll().ToList();
                 ViewData["People"] = people;
                 ViewData["Categories"] = categories;
-                return View(movieCreateModel);
+                return View(mvm);
             }
 
-            Person director = _unitOfWork.People.Get(p => p.Id == movieCreateModel.DirectorId);
-            List<Person> Writers = _unitOfWork.Movies.FilterFromView(movieCreateModel, "Writers");
-            List<Person> Actors =  _unitOfWork.Movies.FilterFromView(movieCreateModel, "Actors");
+            Person director = _unitOfWork.People.Get(p => p.Id == mvm.DirectorId);
+            List<Person> Writers = _unitOfWork.Movies.ExtractPeople(mvm, "Writers");
+            List<Person> Actors =  _unitOfWork.Movies.ExtractPeople(mvm, "Actors");
 
-            Movie movie = _unitOfWork.Movies.Instantiate(movieCreateModel, Actors, Writers);                  
+            Movie movie = _unitOfWork.Movies.InstantiateMovie(mvm, Actors, Writers);                  
             _unitOfWork.Movies.Add(movie);
             _unitOfWork.Save();
             return RedirectToAction("Index");
         }
-
+        [HttpGet]
         public IActionResult Update(int id)
         {
             var movieToUpdate = _unitOfWork.Movies.Get(m => m.Id ==id);
@@ -78,12 +78,15 @@ namespace MovieStore.Areas.Admin.Controllers
             return View(movieToUpdate);
         }
         [HttpPost]
-        public IActionResult Update(Movie movie)
+        public IActionResult Update(MovieViewModel mvm)
         {
-            if (movie == null || !ModelState.IsValid)
+            if (mvm == null || !ModelState.IsValid)
             {
-                return View(movie);
+                return View(mvm);
             }
+            List<Person> actors = _unitOfWork.Movies.ExtractPeople(mvm, "Actors");
+            List<Person> writers = _unitOfWork.Movies.ExtractPeople(mvm, "Writers");
+            Movie movie = _unitOfWork.Movies.InstantiateMovie(mvm, actors, writers);
             _unitOfWork.Movies.Update(movie);
             _unitOfWork.Save();
             return RedirectToAction("Index");

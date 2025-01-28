@@ -5,10 +5,12 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MovieStore.DataAccess.Repository;
+using MovieStore.DataAccess.Data;
 
 namespace MovieStore.Models
 {
-    public class MovieCreateModel: IViewModel
+    public class MovieViewModel: IViewModel
     {
         public string Title { get; set; }
         [Required]

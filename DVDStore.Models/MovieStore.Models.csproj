@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DVDStore.Utilities\MovieStore.Utilities.csproj" />
+    <ProjectReference Include="..\DVDStore.DataAccess\MovieStore.DataAccess.csproj" />
   </ItemGroup>
 
 </Project>

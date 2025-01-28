@@ -33,22 +33,22 @@ namespace MovieStore.DataAccess.Repository
             }
             return movies;
         }
-        public List<Person> FilterFromView(MovieCreateModel mcm, string relationship)
+        public List<Person> ExtractPeople(MovieViewModel mvm, string relationship)
         {
             List<Person> people = new List<Person>();
             switch(relationship)
             {
                 case "Actors":
-                    people = mcm.Actors.Where(a => a.isChecked).Select(a => a.Person).ToList();
+                    people = mvm.Actors.Where(a => a.isChecked).Select(a => a.Person).ToList();
                     break;
                 case "Writers":
-                    people = mcm.Writers.Where(a => a.isChecked).Select(a => a.Person).ToList();
+                    people = mvm.Writers.Where(a => a.isChecked).Select(a => a.Person).ToList();
                     break;
             }
             return people;
         }
 
-        public Movie Instantiate(MovieCreateModel mcm, List<Person> Actors, List<Person> Writers)
+        public Movie InstantiateMovie(MovieViewModel mcm, List<Person> Actors, List<Person> Writers)
         {
             Movie movie = new Movie()
             {
@@ -64,6 +64,22 @@ namespace MovieStore.DataAccess.Repository
                 Writers = Writers
             };   
             return movie;
+        }
+        public MovieViewModel InstantiateMovieViewModel(Movie movie)
+        {
+            MovieViewModel mvm = new MovieViewModel(_db)
+            {
+                Title = movie.Title,
+                ReleaseDate = movie.ReleaseDate,
+                Price = movie.Price,
+                Price5 = movie.Price5,
+                Price10 = movie.Price10,
+                Summary = movie.Summary,
+                CategoryId = movie.CategoryId,
+                DirectorId = movie.DirectorId,
+            };
+
+            for (var i = 0; i < )
         }
         public void Update(Movie movie)
         {
