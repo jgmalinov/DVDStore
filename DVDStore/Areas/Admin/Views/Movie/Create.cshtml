@@ -84,6 +84,7 @@
                     <span asp-validation-for="@Model.Writers[i].isChecked"></span>
                     <input type="hidden" asp-for="@Model.Writers[i].Person.Name" value=@people[i].Name/>
                     <input type="hidden" asp-for="@Model.Writers[i].Person.Background" value=@people[i].Background/>
+                    <input type="hidden" asp-for="@Model.Actors[i].Person.Id" value="@people[i].Id"/>
 
                 }
             </div>
@@ -96,6 +97,7 @@
                     <span asp-validation-for="@Model.Actors[i].isChecked"></span>
                     <input type="hidden" asp-for="@Model.Actors[i].Person.Name" value=@people[i].Name/>
                     <input type="hidden" asp-for="@Model.Actors[i].Person.Background" value=@people[i].Background/>
+                    <input type="hidden" asp-for="@Model.Actors[i].Person.Id" value="@people[i].Id"/>
                 }
             </div>
             <div class="row">

@@ -92,8 +92,8 @@ namespace MovieStore.DataAccess.Repository
         }
         public void Update(Movie movie)
         {
-            Movie? _movie = _db.Movies.FirstOrDefault(m => m.Id == movie.Id);
-            if (_movie is not null)
+            bool movieFound = _db.Movies.Any(m => m.Id == movie.Id);
+            if (movieFound)
             {
                 _db.Movies.Update(movie);
             }
