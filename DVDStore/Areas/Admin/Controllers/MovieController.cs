@@ -70,6 +70,11 @@ namespace MovieStore.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Update(int id)
         {
+            List<Person> people = _unitOfWork.People.GetAll().ToList();
+            List<Category> categories = _unitOfWork.Categories.GetAll().ToList();
+            ViewData["People"] = people;
+            ViewData["Categories"] = categories;
+            
             var movieToUpdate = _unitOfWork.Movies.Get(m => m.Id ==id);
             if (movieToUpdate is null)
             {

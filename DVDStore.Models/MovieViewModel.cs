@@ -10,6 +10,7 @@ namespace MovieStore.Models
 {
     public class MovieViewModel: IViewModel
     {
+        public int Id { get; set; }
         public string Title { get; set; }
         [Required]
         [Display(Name = "Release Date")]

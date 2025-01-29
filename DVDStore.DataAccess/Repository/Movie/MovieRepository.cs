@@ -52,6 +52,7 @@ namespace MovieStore.DataAccess.Repository
         {
             Movie movie = new Movie()
             {
+                Id = mcm.Id,
                 Title = mcm.Title,
                 ReleaseDate = mcm.ReleaseDate,
                 Price = mcm.Price,
@@ -69,6 +70,7 @@ namespace MovieStore.DataAccess.Repository
         {
             MovieViewModel mvm = new MovieViewModel()
             {
+                Id = movie.Id,
                 Title = movie.Title,
                 ReleaseDate = movie.ReleaseDate,
                 Price = movie.Price,
@@ -82,8 +84,8 @@ namespace MovieStore.DataAccess.Repository
             var i=0;
             foreach (var person in _db.People.ToList())
             {
-                mvm.Actors.Add(new PersonCheckModel() {Person = person, isChecked = false});
-                mvm.Writers.Add(new PersonCheckModel() {Person = person, isChecked = false});
+                mvm.Actors.Add(new PersonCheckModel() {Person = person, isChecked = _db.People.Any(p => p.Id == person.Id ? true : false)});
+                mvm.Writers.Add(new PersonCheckModel() {Person = person, isChecked = _db.People.Any(p => p.Id == person.Id ? true : false)});
                 i++;
             }
             return mvm;
