@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using MovieStore.DataAccess.Data;
 using MovieStore.Models;
 
@@ -92,10 +93,26 @@ namespace MovieStore.DataAccess.Repository
         }
         public void Update(Movie movie)
         {
-            bool movieFound = _db.Movies.Any(m => m.Id == movie.Id);
-            if (movieFound)
+            // Duplicate Person tracking most likely caused by adding the same person once as a writer and then as an actor.
+            Movie? _movie = _db.Movies.FirstOrDefault(m => m.Id == movie.Id);
+            if (_movie is not null)
             {
-                _db.Movies.Update(movie);
+                _db.Entry(_movie).CurrentValues.SetValues(movie);
+                _movie.Actors = new List<Person>();
+                foreach(Person actor in movie.Actors)
+                {
+                    _movie.Actors.Add(actor);
+                }
+                _movie.Writers = new List<Person>();
+                foreach(Person writer in movie.Writers)
+                {
+                    _movie.Writers.Add(writer);
+                }
+            }
+            var trackedEntities = _db.ChangeTracker.Entries();
+            foreach (var entry in trackedEntities)
+            {
+                Console.WriteLine($"Entity: {entry.Entity.GetType().Name}, State: {entry.State}");
             }
         }
     }

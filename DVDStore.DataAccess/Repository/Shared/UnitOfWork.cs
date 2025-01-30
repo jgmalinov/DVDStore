@@ -20,6 +20,9 @@ namespace MovieStore.DataAccess.Repository
             Movies = new MovieRepository(_db);
             People = new PersonRepository(_db);
         }
-        public void Save() { _db.SaveChanges(); }
+        public void Save() 
+        { 
+            _db.SaveChanges();
+        }
     }
 }

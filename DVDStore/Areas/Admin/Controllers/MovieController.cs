@@ -48,7 +48,6 @@ namespace MovieStore.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(MovieViewModel mvm)
         {
-            // Model State is failing
             if (!ModelState.IsValid)
             {
                 List<Person> people = _unitOfWork.People.GetAll().ToList();
@@ -75,7 +74,7 @@ namespace MovieStore.Areas.Admin.Controllers
             ViewData["People"] = people;
             ViewData["Categories"] = categories;
             
-            var movieToUpdate = _unitOfWork.Movies.Get(m => m.Id ==id);
+            var movieToUpdate = _unitOfWork.Movies.Get(m => m.Id == id);
             if (movieToUpdate is null)
             {
                 return NotFound();
