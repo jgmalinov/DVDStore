@@ -58,8 +58,8 @@ namespace MovieStore.Areas.Admin.Controllers
             }
 
             Person director = _unitOfWork.People.Get(p => p.Id == mvm.DirectorId);
-            List<Person> Writers = _unitOfWork.Movies.ExtractPeople(mvm, "Writers");
-            List<Person> Actors =  _unitOfWork.Movies.ExtractPeople(mvm, "Actors");
+            List<Person> Writers = _unitOfWork.Movies.ExtractCheckedPeople(mvm, "Writers");
+            List<Person> Actors =  _unitOfWork.Movies.ExtractCheckedPeople(mvm, "Actors");
 
             Movie movie = _unitOfWork.Movies.InstantiateMovie(mvm, Actors, Writers);                  
             _unitOfWork.Movies.Add(movie);
@@ -89,8 +89,12 @@ namespace MovieStore.Areas.Admin.Controllers
             {
                 return View(mvm);
             }
-            List<Person> actors = _unitOfWork.Movies.ExtractPeople(mvm, "Actors");
-            List<Person> writers = _unitOfWork.Movies.ExtractPeople(mvm, "Writers");
+            for (int i=0; i < mvm.Actors.Count; i++)
+            {
+                mvm.Actors[i].Person = mvm.Writers[i].Person;
+            }
+            List<Person> actors = _unitOfWork.Movies.ExtractCheckedPeople(mvm, "Actors");
+            List<Person> writers = _unitOfWork.Movies.ExtractCheckedPeople(mvm, "Writers");
             Movie movie = _unitOfWork.Movies.InstantiateMovie(mvm, actors, writers);
             _unitOfWork.Movies.Update(movie);
             _unitOfWork.Save();

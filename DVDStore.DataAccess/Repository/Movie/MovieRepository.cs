@@ -34,7 +34,7 @@ namespace MovieStore.DataAccess.Repository
             }
             return movies;
         }
-        public List<Person> ExtractPeople(MovieViewModel mvm, string relationship)
+        public List<Person> ExtractCheckedPeople(MovieViewModel mvm, string relationship)
         {
             List<Person> people = new List<Person>();
             switch(relationship)
@@ -64,7 +64,8 @@ namespace MovieStore.DataAccess.Repository
                 DirectorId = mcm.DirectorId,
                 Actors = Actors,
                 Writers = Writers
-            };   
+            };
+            Console.WriteLine(object.ReferenceEquals(movie.Actors[1], movie.Writers[0]));
             return movie;
         }
         public MovieViewModel InstantiateMovieViewModel(Movie movie)
@@ -85,8 +86,8 @@ namespace MovieStore.DataAccess.Repository
             var i=0;
             foreach (var person in _db.People.ToList())
             {
-                mvm.Actors.Add(new PersonCheckModel() {Person = person, isChecked = _db.People.Any(p => p.Id == person.Id ? true : false)});
-                mvm.Writers.Add(new PersonCheckModel() {Person = person, isChecked = _db.People.Any(p => p.Id == person.Id ? true : false)});
+                mvm.Actors.Add(new PersonCheckModel() {Person = person, isChecked = movie.Actors.Any(a => a.Id == person.Id ? true : false)});
+                mvm.Writers.Add(new PersonCheckModel() {Person = person, isChecked = movie.Writers.Any(a => a.Id == person.Id ? true : false)});
                 i++;
             }
             return mvm;
@@ -94,22 +95,55 @@ namespace MovieStore.DataAccess.Repository
         public void Update(Movie movie)
         {
             // Duplicate Person tracking most likely caused by adding the same person once as a writer and then as an actor.
-            Movie? _movie = _db.Movies.FirstOrDefault(m => m.Id == movie.Id);
+            Movie? _movie = _db.Movies
+                            .Include(m => m.Actors)
+                            .Include(m => m.Writers)
+                            .FirstOrDefault(m => m.Id == movie.Id);
+            
+            // Obtain entities from tracker
+            var trackedEntities = _db.ChangeTracker.Entries();
+            List<Person> trackedPeople = trackedEntities
+                                        .Where(e => e.Entity.GetType() == typeof(Person))
+                                        .Select(e => (Person) e.Entity).ToList();
+            foreach (var entry in trackedEntities)
+            {
+                Console.WriteLine($"Entity: {entry.Entity.GetType().Name}, State: {entry.State}");
+            }
+
             if (_movie is not null)
             {
                 _db.Entry(_movie).CurrentValues.SetValues(movie);
-                _movie.Actors = new List<Person>();
                 foreach(Person actor in movie.Actors)
                 {
-                    _movie.Actors.Add(actor);
+                    Person? alreadyTrackedPerson = trackedPeople.FirstOrDefault(p => p.Id == actor.Id);
+                    if (!_movie.Actors.Any(a => a.Id == actor.Id))
+                    {
+                        if (alreadyTrackedPerson is not null)
+                        {
+                            _movie.Actors.Add(alreadyTrackedPerson);
+                        }
+                        else
+                        {
+                            _movie.Actors.Add(actor);
+                        }
+                    }
                 }
-                _movie.Writers = new List<Person>();
                 foreach(Person writer in movie.Writers)
                 {
-                    _movie.Writers.Add(writer);
+                    Person? alreadyTrackedPerson = trackedPeople.FirstOrDefault(p => p.Id == writer.Id);
+                    if (!_movie.Writers.Any(a => a.Id == writer.Id))
+                    {
+                        if (alreadyTrackedPerson is not null)
+                        {
+                            _movie.Writers.Add(alreadyTrackedPerson);
+                        } else 
+                        {
+                            _movie.Writers.Add(writer);
+                        }
+                    }
                 }
             }
-            var trackedEntities = _db.ChangeTracker.Entries();
+            trackedEntities = _db.ChangeTracker.Entries();
             foreach (var entry in trackedEntities)
             {
                 Console.WriteLine($"Entity: {entry.Entity.GetType().Name}, State: {entry.State}");
