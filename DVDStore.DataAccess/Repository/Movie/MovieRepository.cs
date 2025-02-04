@@ -65,7 +65,6 @@ namespace MovieStore.DataAccess.Repository
                 Actors = Actors,
                 Writers = Writers
             };
-            Console.WriteLine(object.ReferenceEquals(movie.Actors[1], movie.Writers[0]));
             return movie;
         }
         public MovieViewModel InstantiateMovieViewModel(Movie movie)
@@ -93,6 +92,7 @@ namespace MovieStore.DataAccess.Repository
             return mvm;
         }
         public void Update(Movie movie)
+        /*
         {
             // Duplicate Person tracking most likely caused by adding the same person once as a writer and then as an actor.
             Movie? _movie = _db.Movies
@@ -147,6 +147,24 @@ namespace MovieStore.DataAccess.Repository
             foreach (var entry in trackedEntities)
             {
                 Console.WriteLine($"Entity: {entry.Entity.GetType().Name}, State: {entry.State}");
+            }
+        }
+        */
+        {
+            Movie? _movie = _db.Movies
+                            .Include(m => m.Actors)
+                            .AsNoTracking()
+                            .Include(m => m.Writers)
+                            .AsNoTracking()
+                            .FirstOrDefault(m => m.Id == movie.Id);
+            _db.Entry(_movie).CurrentValues.SetValues(movie);
+            _movie.Actors = _movie.Actors.Union(movie.Actors).Intersect(movie.Actors).ToList();
+            _movie.Writers = _movie.Writers.Union(movie.Writers).Intersect(movie.Writers).ToList();
+            var AllPeopleInvoled = _movie.Actors.Union(_movie.Writers);
+            foreach(var person in AllPeopleInvoled)
+            {
+                _db.People.Attach(person);
+                _db.Entry(person).State = EntityState.Modified;
             }
         }
     }
