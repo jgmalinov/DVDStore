@@ -15,8 +15,10 @@ namespace MovieStore
             if (builder.Environment.IsDevelopment())
             {
                 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlite(builder.Configuration.GetConnectionString("Development"),
-                b => b.MigrationsAssembly("MovieStore")));
+                {
+                    options.UseSqlite(builder.Configuration.GetConnectionString("Development"), b => b.MigrationsAssembly("MovieStore"));
+                    options.EnableSensitiveDataLogging();
+                });
             } else
             {
                 builder.Services.AddDbContext<ApplicationDbContext>(options =>

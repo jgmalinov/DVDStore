@@ -143,28 +143,103 @@ namespace MovieStore.DataAccess.Repository
                     }
                 }
             }
-            trackedEntities = _db.ChangeTracker.Entries();
             foreach (var entry in trackedEntities)
+            trackedEntities = _db.ChangeTracker.Entries();
             {
                 Console.WriteLine($"Entity: {entry.Entity.GetType().Name}, State: {entry.State}");
             }
         }
-        */
-        {
-            Movie? _movie = _db.Movies
-                            .Include(m => m.Actors)
-                            .AsNoTracking()
-                            .Include(m => m.Writers)
-                            .AsNoTracking()
-                            .FirstOrDefault(m => m.Id == movie.Id);
-            _db.Entry(_movie).CurrentValues.SetValues(movie);
-            _movie.Actors = _movie.Actors.Union(movie.Actors).Intersect(movie.Actors).ToList();
+
+        _db.Entry(_movie).Collection<Person>("Actors").Load();
+        _db.Entry(_movie).Collection<Person>("Writers").Load();
+        List<Person>  = _movie.Actors.Union(movie.Actors).Intersect(movie.Actors).ToList();
             _movie.Writers = _movie.Writers.Union(movie.Writers).Intersect(movie.Writers).ToList();
             var AllPeopleInvoled = _movie.Actors.Union(_movie.Writers);
             foreach(var person in AllPeopleInvoled)
             {
                 _db.People.Attach(person);
                 _db.Entry(person).State = EntityState.Modified;
+            }
+        */
+        {
+            Movie? _movie = _db.Movies
+                            .Include(m => m.Actors)
+                            .Include(m => m.Writers)
+                            .FirstOrDefault(m => m.Id == movie.Id);
+            _db.Entry(_movie).CurrentValues.SetValues(movie);
+            Dictionary<Person, String> actorsToModify = new Dictionary<Person, string>();
+            foreach(var person in _movie.Actors)
+            {
+                if (!movie.Actors.Any(p => p.Id == person.Id))
+                {
+                    actorsToModify.Add(person, "Remove");
+                }
+            }
+            var trackedEntities = _db.ChangeTracker.Entries();
+            List<Person> trackedPeople = _db.ChangeTracker.Entries()
+                                        .Where(e => e.Entity.GetType() == typeof(Person))
+                                        .Select(e => (Person) e.Entity)
+                                        .ToList();
+            foreach (var entry in trackedEntities)
+            {
+                Console.WriteLine($"Entity: {entry.Entity.GetType().Name}, State: {entry.State}");
+            }
+            foreach(var person in movie.Actors)
+            {
+                if (!_movie.Actors.Any(p => p.Id == person.Id))
+                {
+                    actorsToModify.Add(person, "Add");
+                }
+            }
+
+            foreach(var actor in actorsToModify)
+            {
+                Person actorTrackerChecked = trackedPeople.FirstOrDefault(p => p.Id == actor.Key.Id);
+                var result = actorTrackerChecked != null ? actorTrackerChecked : actor.Key;
+                if(actor.Value == "Add")
+                {
+                    _movie.Actors.Add(result);
+                } else
+                {
+                    _movie.Actors.Remove(result);
+                }
+            }
+            trackedEntities = _db.ChangeTracker.Entries();
+            foreach (var entry in trackedEntities)
+            {
+                Console.WriteLine($"Entity: {entry.Entity.GetType().Name}, State: {entry.State}");
+            }
+            Dictionary<Person, String> writersToModify = new Dictionary<Person, string>();
+            foreach(var person in _movie.Writers)
+            {
+                if (!movie.Writers.Any(p => p.Id == person.Id))
+                {
+                    writersToModify.Add(person, "Remove");
+                }
+            }
+            foreach(var person in movie.Writers)
+            {
+                if (!_movie.Writers.Any(p => p.Id == person.Id))
+                {
+                    writersToModify.Add(person, "Add");
+                }
+            }
+            trackedEntities = _db.ChangeTracker.Entries();
+            foreach (var entry in trackedEntities)
+            {
+                Console.WriteLine($"Entity: {entry.Entity.GetType().Name}, State: {entry.State}");
+            }
+            foreach(var writer in writersToModify)
+            {
+                Person writerTrackerChecked = trackedPeople.FirstOrDefault(p => p.Id == writer.Key.Id);
+                var result = writerTrackerChecked != null ? writerTrackerChecked : writer.Key;
+                if(writer.Value == "Add")
+                {
+                    _movie.Writers.Add(result);
+                } else
+                {
+                    _movie.Writers.Remove(result);
+                }
             }
         }
     }
