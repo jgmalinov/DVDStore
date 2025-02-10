@@ -16,14 +16,14 @@ namespace MovieStore
             {
                 builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 {
-                    options.UseSqlite(builder.Configuration.GetConnectionString("Development"), b => b.MigrationsAssembly("MovieStore"));
+                    options.UseSqlite(builder.Configuration.GetConnectionString("Development"), b => b.MigrationsAssembly("MovieStore.DataAccess"));
                     options.EnableSensitiveDataLogging();
                 });
             } else
             {
                 builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
-                b => b.MigrationsAssembly("MovieStore")));
+                b => b.MigrationsAssembly("MovieStore.DataAccess")));
             }
             
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();

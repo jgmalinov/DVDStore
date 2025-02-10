@@ -38,6 +38,8 @@ namespace MovieStore.Models
         public int DirectorId {  get; set; }
         public Person? Director { get; set; }
         public List<Person>? Writers { get; set; }
+        public List<MoviesWriters>? MoviesWriters {get; set;}
         public List<Person>? Actors {  get; set; }
+        public List<MoviesActors>? MoviesActors {get; set;}
     }
 }

@@ -62,9 +62,8 @@ namespace MovieStore.DataAccess.Repository
                 Summary = mcm.Summary,
                 CategoryId = mcm.CategoryId,
                 DirectorId = mcm.DirectorId,
-                Actors = Actors,
-                Writers = Writers
             };
+            
             return movie;
         }
         public MovieViewModel InstantiateMovieViewModel(Movie movie)
