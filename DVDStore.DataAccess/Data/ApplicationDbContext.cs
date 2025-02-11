@@ -11,6 +11,8 @@ namespace MovieStore.DataAccess.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Movie> Movies { get; set; }
         public DbSet<Person> People { get; set; }
+        public DbSet<MoviesActors> MoviesActors {get; set;}
+        public DbSet<MoviesWriters> MoviesWriters {get; set;}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

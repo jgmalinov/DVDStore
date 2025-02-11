@@ -22,6 +22,11 @@ namespace MovieStore.DataAccess.Repository
         }
         public void Add(T entity)
         {
+            var trackedEntities = _db.ChangeTracker.Entries();
+            foreach (var entry in trackedEntities)
+            {
+                Console.WriteLine($"Entity: {entry.Entity.GetType().Name}, State: {entry.State}");
+            }
             dbSet.Add(entity);
         }
 

@@ -87,6 +87,10 @@ namespace MovieStore.Areas.Admin.Controllers
         {
             if (mvm == null || !ModelState.IsValid)
             {
+                List<Person> people = _unitOfWork.People.GetAll().ToList();
+                List<Category> categories = _unitOfWork.Categories.GetAll().ToList();
+                ViewData["People"] = people;
+                ViewData["Categories"] = categories;
                 return View(mvm);
             }
             for (int i=0; i < mvm.Actors.Count; i++)

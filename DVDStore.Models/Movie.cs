@@ -37,9 +37,9 @@ namespace MovieStore.Models
         [ForeignKey(nameof(Director))]
         public int DirectorId {  get; set; }
         public Person? Director { get; set; }
-        public List<Person>? Writers { get; set; }
-        public List<MoviesWriters>? MoviesWriters {get; set;}
-        public List<Person>? Actors {  get; set; }
-        public List<MoviesActors>? MoviesActors {get; set;}
+        public List<Person>? Writers { get; set; } = new List<Person>();
+        public List<MoviesWriters>? MoviesWriters {get; set;} = new List<MoviesWriters>();
+        public List<Person>? Actors {  get; set; } = new List<Person>();
+        public List<MoviesActors>? MoviesActors {get; set;} = new List<MoviesActors>();
     }
 }
