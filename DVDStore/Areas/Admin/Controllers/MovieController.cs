@@ -115,10 +115,11 @@ namespace MovieStore.Areas.Admin.Controllers
             return View(movieToDelete);
         }
 
-        [HttpPost]
-        public IActionResult Delete(Movie movie)
+        [HttpPost, ActionName("Delete")]
+        public IActionResult DeletePost(int Id)
         {
-            _unitOfWork.Movies.Delete(movie);
+            Movie _movie = _unitOfWork.Movies.Get(m => m.Id == Id);
+            _unitOfWork.Movies.Delete(_movie);
             _unitOfWork.Save();
             return RedirectToAction("Index");
         }

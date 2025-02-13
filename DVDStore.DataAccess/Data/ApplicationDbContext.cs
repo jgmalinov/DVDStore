@@ -76,17 +76,15 @@ namespace MovieStore.DataAccess.Data
                 .HasMany(m => m.Actors)
                 .WithMany(p => p.MoviesStarredIn)
                 .UsingEntity<MoviesActors>(
-                    r => r.HasOne<Person>().WithMany().HasForeignKey(r => r.ActorId),
-                    l => l.HasOne<Movie>().WithMany(m => m.MoviesActors)
-                    .OnDelete(DeleteBehavior.Restrict));
+                    r => r.HasOne<Person>().WithMany().HasForeignKey(r => r.ActorId).OnDelete(DeleteBehavior.Cascade),
+                    l => l.HasOne<Movie>().WithMany(m => m.MoviesActors).OnDelete(DeleteBehavior.Restrict));
 
             modelBuilder.Entity<Movie>()
                 .HasMany(m => m.Writers)
                 .WithMany(w => w.MoviesWrittenFor)
                 .UsingEntity<MoviesWriters>(
-                    r => r.HasOne<Person>().WithMany().HasForeignKey(r => r.WriterId),
-                    l => l.HasOne<Movie>().WithMany(m => m.MoviesWriters)
-                    .OnDelete(DeleteBehavior.Restrict));
+                    r => r.HasOne<Person>().WithMany().HasForeignKey(r => r.WriterId).OnDelete(DeleteBehavior.Cascade),
+                    l => l.HasOne<Movie>().WithMany(m => m.MoviesWriters).OnDelete(DeleteBehavior.Restrict));
 
             modelBuilder.Entity<MoviesActors>()
                 .HasKey(ma => new { ma.ActorId, ma.MovieId });

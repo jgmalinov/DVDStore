@@ -122,5 +122,18 @@ namespace MovieStore.DataAccess.Repository
             }
             _movie.MoviesWriters.AddRange(newMoviesWriters);
         }
+        public override void Delete(Movie movie)
+        {
+            foreach(var ma in movie.MoviesActors)
+            {
+                _db.MoviesActors.Remove(ma);
+            }
+            foreach(var mw in movie.MoviesWriters)
+            {
+                _db.MoviesWriters.Remove(mw);
+            }
+            movie.MoviesWriters.Clear();
+            _db.Movies.Remove(movie);
+        }
     }
 }
