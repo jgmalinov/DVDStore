@@ -35,7 +35,7 @@ namespace MovieStore.DataAccess.Repository
             IQueryable<T> query = dbSet;
             return query.AsNoTracking().ToList();
         }
-        public void Delete(T entity)
+        public virtual void Delete(T entity)
         {
             dbSet.Remove(entity);
         }
