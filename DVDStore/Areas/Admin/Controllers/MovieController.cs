@@ -29,78 +29,37 @@ namespace MovieStore.Areas.Admin.Controllers
             return View(movieToGet);
         }
         [HttpGet]
-        public IActionResult CreateView(MovieViewModel mvm)
+        public IActionResult Upsert(int? Id)
         {
-            List<Person> people = _unitOfWork.People.GetAll().ToList();
             List<Category> categories = _unitOfWork.Categories.GetAll().ToList();
-            ViewData["People"] = people;
-            ViewData["Categories"] = categories;
-            if (mvm == null)
-            {
-                return View("Create", new MovieViewModel());
-            }
-            else
-            {
-                return View("Create", mvm);
-            }
+            TempData["Categories"] = categories;
+            Movie? movie = _unitOfWork.Movies.Get(m => m.Id == Id);
+            MovieViewModel mvm = _unitOfWork.Movies.InstantiateMovieViewModel(movie);
+            return View("Upsert", mvm);
         }
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(MovieViewModel mvm)
+        public IActionResult Upsert(MovieViewModel mvm, IFormFile? file)
         {
             if (!ModelState.IsValid)
             {
-                List<Person> people = _unitOfWork.People.GetAll().ToList();
-                List<Category> categories = _unitOfWork.Categories.GetAll().ToList();
-                ViewData["People"] = people;
-                ViewData["Categories"] = categories;
                 return View(mvm);
             }
 
-            Person director = _unitOfWork.People.Get(p => p.Id == mvm.DirectorId);
             List<Person> Writers = _unitOfWork.Movies.ExtractCheckedPeople(mvm, "Writers");
             List<Person> Actors =  _unitOfWork.Movies.ExtractCheckedPeople(mvm, "Actors");
 
-            Movie movie = _unitOfWork.Movies.InstantiateMovie(mvm, Actors, Writers);                  
-            _unitOfWork.Movies.Add(movie);
-            _unitOfWork.Save();
-            return RedirectToAction("Index");
-        }
-        [HttpGet]
-        public IActionResult Update(int id)
-        {
-            List<Person> people = _unitOfWork.People.GetAll().ToList();
-            List<Category> categories = _unitOfWork.Categories.GetAll().ToList();
-            ViewData["People"] = people;
-            ViewData["Categories"] = categories;
-            
-            var movieToUpdate = _unitOfWork.Movies.Get(m => m.Id == id);
-            if (movieToUpdate is null)
+            Movie movie = _unitOfWork.Movies.InstantiateMovie(mvm, Actors, Writers);
+            bool isCreate = _unitOfWork.Movies.IsCreate(movie);
+            if (isCreate)
             {
-                return NotFound();
+                _unitOfWork.Movies.Add(movie);
             }
-            MovieViewModel mvm = _unitOfWork.Movies.InstantiateMovieViewModel(movieToUpdate);
-            return View(mvm);
-        }
-        [HttpPost]
-        public IActionResult Update(MovieViewModel mvm)
-        {
-            if (mvm == null || !ModelState.IsValid)
+            else 
             {
-                List<Person> people = _unitOfWork.People.GetAll().ToList();
-                List<Category> categories = _unitOfWork.Categories.GetAll().ToList();
-                ViewData["People"] = people;
-                ViewData["Categories"] = categories;
-                return View(mvm);
+                _unitOfWork.Movies.Update(movie);
             }
-            for (int i=0; i < mvm.Actors.Count; i++)
-            {
-                mvm.Actors[i].Person = mvm.Writers[i].Person;
-            }
-            List<Person> actors = _unitOfWork.Movies.ExtractCheckedPeople(mvm, "Actors");
-            List<Person> writers = _unitOfWork.Movies.ExtractCheckedPeople(mvm, "Writers");
-            Movie movie = _unitOfWork.Movies.InstantiateMovie(mvm, actors, writers);
-            _unitOfWork.Movies.Update(movie);
             _unitOfWork.Save();
             return RedirectToAction("Index");
         }

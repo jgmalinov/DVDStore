@@ -1,25 +1,21 @@
 ﻿@model MovieViewModel
 @{
-    var people = ViewData["People"] as List<Person>;
-    var categories = ViewData["Categories"] as List<Category>;
+    var categories = TempData["Categories"] as List<Category>;
 }
 <div class="="card shadow border-0 mt-4>
     <div class="card-header bg-secondary bg-gradient ml-0 py-3">
         <div class="row">
             <div class="col-12 text-center">
-                <h2 class="py-2">Edit Movie</h2>
+                <h2 class="py-2">Create Movie</h2>
             </div>
         </div>
     </div>
     <div class="card-body p-4">
-        <form method="post" asp-action="Update">
+        <form method="post" asp-action="Create" enctype="multipart/form-data">
             <div class="row pb-2">
                 <hr />
                 <div asp-validation-summary="ModelOnly"></div>
             </div>
-            
-            <input type="hidden" asp-for="@Model.Id" value="@Model.Id" class="form-control"/>
-
             <div class="mb-3 row p-1">
                 <label asp-for="Title" class="p-0"></label>
                 <input asp-for="Title" type="text" class="form-control"/>
@@ -70,6 +66,11 @@
                 </select>
                 <span asp-validation-for="DirectorId" class="text-danger"></span>
             </div>
+                        <div class="mb-3 row p-1">
+                <label asp-for="ImageUrl" class="p-0"></label>
+                <input type="file" asp-for="ImageUrl" class="form-control border-0 shadow">
+                <span asp-validation-for="ImageUrl" class="text-danger"></span>
+            </div>
             <div class="mb-3 row p-1">
                 <h3>Writers</h3>
                 @for (int i=0; i < people.Count; i++)
@@ -80,6 +81,7 @@
                     <input type="hidden" asp-for="@Model.Writers[i].Person.Name" value=@people[i].Name/>
                     <input type="hidden" asp-for="@Model.Writers[i].Person.Background" value=@people[i].Background/>
                     <input type="hidden" asp-for="@Model.Writers[i].Person.Id" value="@people[i].Id"/>
+
                 }
             </div>
             <div class="mb-3 row p-1">
@@ -96,7 +98,7 @@
             </div>
             <div class="row">
                 <div class="col-6 col-md-3">
-                    <button type="submit" class="btn btn-primary form-control">Update</button>
+                    <button type="submit" class="btn btn-primary form-control">Create</button>
                 </div>
                 <div class="col-6 col-md-3">
                     <a asp-controller="Movie" asp-action="Index" class="btn btn-secondary border-1 form-control">

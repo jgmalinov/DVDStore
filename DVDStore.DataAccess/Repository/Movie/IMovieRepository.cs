@@ -14,5 +14,6 @@ namespace MovieStore.DataAccess.Repository
         List<Person> ExtractCheckedPeople(MovieViewModel mvm, string relationship);
         Movie InstantiateMovie(MovieViewModel mcm, List<Person> Actors, List<Person> Writers);
         MovieViewModel InstantiateMovieViewModel(Movie movie);
+        bool IsCreate(Movie movie);
     }
 }

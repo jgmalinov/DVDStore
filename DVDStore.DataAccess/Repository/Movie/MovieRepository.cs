@@ -74,28 +74,34 @@ namespace MovieStore.DataAccess.Repository
             }
             return movie;
         }
-        public MovieViewModel InstantiateMovieViewModel(Movie movie)
+        public MovieViewModel InstantiateMovieViewModel(Movie? movie)
         {
-            MovieViewModel mvm = new MovieViewModel()
+            List<Person> people = _db.People.ToList();
+            MovieViewModel mvm;
+            if (movie == null)
             {
-                Id = movie.Id,
-                Title = movie.Title,
-                ReleaseDate = movie.ReleaseDate,
-                Price = movie.Price,
-                Price5 = movie.Price5,
-                Price10 = movie.Price10,
-                Summary = movie.Summary,
-                CategoryId = movie.CategoryId,
-                DirectorId = movie.DirectorId,
-                ImageUrl = movie.ImageUrl
-            };
-
-            var i=0;
-            foreach (var person in _db.People.ToList())
+                mvm = new MovieViewModel();
+            }
+            else
             {
-                mvm.Actors.Add(new PersonCheckModel() {Person = person, isChecked = movie.Actors.Any(a => a.Id == person.Id ? true : false)});
-                mvm.Writers.Add(new PersonCheckModel() {Person = person, isChecked = movie.Writers.Any(a => a.Id == person.Id ? true : false)});
-                i++;
+                mvm = new MovieViewModel()
+                {
+                    Id = movie.Id,
+                    Title = movie.Title,
+                    ReleaseDate = movie.ReleaseDate,
+                    Price = movie.Price,
+                    Price5 = movie.Price5,
+                    Price10 = movie.Price10,
+                    Summary = movie.Summary,
+                    CategoryId = movie.CategoryId,
+                    DirectorId = movie.DirectorId,
+                    ImageUrl = movie.ImageUrl
+                };
+            }
+            foreach (var person in people)
+            {
+                mvm.Actors.Add(new PersonCheckModel() {Person = person, isChecked = movie == null ? false : movie.Actors.Any(a => a.Id == person.Id) ? true : false});
+                mvm.Writers.Add(new PersonCheckModel() {Person = person, isChecked = movie == null ? false : movie.Writers.Any(a => a.Id == person.Id) ? true : false});
             }
             return mvm;
         }
@@ -136,6 +142,18 @@ namespace MovieStore.DataAccess.Repository
             }
             movie.MoviesWriters.Clear();
             _db.Movies.Remove(movie);
+        }
+
+        private bool IsCreate(Movie movie)
+        {
+            if (_db.Movies.Any(m => m.Id == movie.Id))
+            {
+                return false;
+            }
+            else 
+            {
+                return true;
+            }
         }
     }
 }
