@@ -20,7 +20,7 @@
         </div>
     </div>
     <div class="card-body p-4">
-        <form method="post" asp-action="Create">
+        <form method="post" asp-action="Create" enctype="multipart/form-data">
             <div class="row pb-2">
                 <hr />
                 <div asp-validation-summary="ModelOnly"></div>
@@ -74,6 +74,11 @@
                     }
                 </select>
                 <span asp-validation-for="DirectorId" class="text-danger"></span>
+            </div>
+                        <div class="mb-3 row p-1">
+                <label asp-for="ImageUrl" class="p-0"></label>
+                <input type="file" asp-for="ImageUrl" class="form-control border-0 shadow">
+                <span asp-validation-for="ImageUrl" class="text-danger"></span>
             </div>
             <div class="mb-3 row p-1">
                 <h3>Writers</h3>

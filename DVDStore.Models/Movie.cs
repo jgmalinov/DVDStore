@@ -31,6 +31,7 @@ namespace MovieStore.Models
         [Range(1, 100)]
         [Display(Name = "Price for 5-10")]
         public double Price10 {  get; set; }
+        public string ImageUrl { get; set; }
         [ForeignKey(nameof(Category))]
         public int CategoryId {  get; set; }
         public Category Category { get; set; }

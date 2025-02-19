@@ -32,7 +32,8 @@ namespace MovieStore.DataAccess.Data
                         "The film stars Anthony Hopkins as an octogenarian Welsh man living with dementia. " +
                         "At the 93rd Academy Awards, The Father received six nominations, including Best Picture; Hopkins won Best Actor and Zeller and Hampton won Best Adapted Screenplay. " +
                         "Since then, it has been cited as one of the best films of the 2020s and the 21st century.",
-                        DirectorId = 2
+                        DirectorId = 2,
+                        ImageUrl = ""
                     }
                 );
 

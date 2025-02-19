@@ -62,6 +62,7 @@ namespace MovieStore.DataAccess.Repository
                 Summary = mcm.Summary,
                 CategoryId = mcm.CategoryId,
                 DirectorId = mcm.DirectorId,
+                ImageUrl = mcm.ImageUrl
             };
             foreach(var actor in Actors)
             {
@@ -86,6 +87,7 @@ namespace MovieStore.DataAccess.Repository
                 Summary = movie.Summary,
                 CategoryId = movie.CategoryId,
                 DirectorId = movie.DirectorId,
+                ImageUrl = movie.ImageUrl
             };
 
             var i=0;

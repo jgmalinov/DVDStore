@@ -111,6 +111,9 @@ namespace MovieStore.Areas.Admin.Controllers
             if (movieToDelete is null)
             {
                 return NotFound();
+            } else
+            {
+                _unitOfWork.Movies.Delete(movieToDelete);
             }
             return View(movieToDelete);
         }

@@ -16,6 +16,7 @@ namespace MovieStore.Models
         [Display(Name = "Release Date")]
         public DateOnly ReleaseDate { get; set; }
         public string Summary { get; set; }
+        public string ImageUrl {get; set; }
         [Required]
         [Range(1, 100)]
         [Display(Name = "Price for 1-5")]
